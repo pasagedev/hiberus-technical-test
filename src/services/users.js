@@ -14,4 +14,21 @@ function getUsers(token) {
         .then(data => data.items);
 }
 
-export { getUsers };
+function deleteUser(id, token) {
+    const { tokenType, accessToken } = token;
+    return fetch(`http://51.38.51.187:5050/api/v1/users/${id}`, {
+        method: "DELETE",
+        headers: {
+            "Content-type": "application/json",
+            Authorization: `${tokenType} ${accessToken}`,
+        },
+    }).then(res => {
+        if (res.ok) return { message: "Usuario eliminado" };
+        console.log(res);
+        throw new Error(
+            res.status === 404 ? "Usuario no encontrado" : "Error desconocido"
+        );
+    });
+}
+
+export { getUsers, deleteUser };
