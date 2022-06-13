@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { ListGroup, Button, Card } from "react-bootstrap";
 
 export default function User({ email, name, surname, id, onDeleteHandler }) {
     const [showDetail, setShowDetail] = useState(false);
@@ -6,22 +7,24 @@ export default function User({ email, name, surname, id, onDeleteHandler }) {
     const handleShowDetail = () => setShowDetail(!showDetail);
 
     return (
-        <li>
-            <p>
-                {name} {surname}
-            </p>
-            {showDetail && (
-                <div>
-                    <p>Correo: {email}</p>
-                    <p>ID: {id}</p>
-                    <button onClick={() => onDeleteHandler(id)}>
-                        Eliminar
-                    </button>
-                </div>
-            )}
-            <button onClick={handleShowDetail}>
-                {showDetail ? "Ocultar detalle" : "Mostrar detalle"}
-            </button>
-        </li>
+        <ListGroup.Item action variant="ligth" onClick={handleShowDetail}>
+            <Card>
+                <Card.Header>
+                    {name} {surname}
+                </Card.Header>
+                {showDetail && (
+                    <Card.Body>
+                        <Card.Text>Correo: {email}</Card.Text>
+                        <Card.Text>ID: {id}</Card.Text>
+                        <Button
+                            variant="danger"
+                            onClick={() => onDeleteHandler(id)}
+                        >
+                            Eliminar
+                        </Button>
+                    </Card.Body>
+                )}
+            </Card>
+        </ListGroup.Item>
     );
 }
