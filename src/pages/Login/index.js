@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
-
 import { login } from "../../services/auth";
 import Context from "../../context/UserContext";
+import { Navigate } from "react-router-dom";
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -14,11 +14,16 @@ export default function Login() {
     const handleSubmit = e => {
         e.preventDefault();
         login(email, password)
-            .then(res => setToken(res))
+            .then(res => {
+                setToken(res);
+                localStorage.setItem("token", JSON.stringify(res));
+            })
             .catch(err => console.log(err));
     };
 
-    return (
+    return token ? (
+        <Navigate to="/users" />
+    ) : (
         <form onSubmit={handleSubmit}>
             <div>
                 <label htmlFor="email">email:</label>

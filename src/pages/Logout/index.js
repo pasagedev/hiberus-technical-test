@@ -6,6 +6,7 @@ export default function Logout() {
 
     const handleClick = () => {
         setToken(null);
+        localStorage.removeItem("token");
     };
     return <button onClick={handleClick}>Cerrar sesión</button>;
 }
