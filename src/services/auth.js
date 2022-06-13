@@ -14,4 +14,24 @@ function login(email, password) {
     });
 }
 
-export { login };
+function register(email, password, name, surname) {
+    return fetch("http://51.38.51.187:5050/api/v1/auth/sign-up", {
+        method: "POST",
+        headers: {
+            "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+            email,
+            password,
+            name,
+            surname,
+        }),
+    }).then(res => {
+        if (res.ok) return { message: "Registro creado correctamente" };
+        throw new Error(
+            res.status === 409 ? "El email ya existe" : "Error desconocido"
+        );
+    });
+}
+
+export { login, register };
