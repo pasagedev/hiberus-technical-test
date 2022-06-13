@@ -1,7 +1,7 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
+import { Form, Row, Col, Button, Container } from "react-bootstrap";
 
 import { register } from "../../services/auth";
-import Context from "../../context/UserContext";
 
 export default function SingUp() {
     const [email, setEmail] = useState("");
@@ -28,53 +28,87 @@ export default function SingUp() {
                 setMessage(e.message);
             });
     };
-    console.log(message);
+
     return (
         <>
-            {message && <div>{message}</div>}
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="email">email:</label>
-                    <input
-                        id="email"
-                        type="email"
-                        placeholder="ejemplo@correo.com"
-                        value={email}
-                        onChange={handleEmailChange}
-                    />
-                </div>
-                <div>
-                    <label htmlFor="password">contraseña:</label>
-                    <input
-                        id="password"
-                        type="password"
-                        placeholder="Ingrese su contraseña..."
-                        value={password}
-                        onChange={handlePasswordChange}
-                    />
-                </div>
-                <div>
-                    <label htmlFor="name">nombre:</label>
-                    <input
-                        id="name"
-                        type="text"
-                        placeholder="escribe tu nombre"
-                        value={name}
-                        onChange={handleNameChange}
-                    />
-                </div>
-                <div>
-                    <label htmlFor="surname">apellido:</label>
-                    <input
-                        id="surname"
-                        type="text"
-                        placeholder="escribe tu nombre"
-                        value={surname}
-                        onChange={handleSurnameChange}
-                    />
-                </div>
-                <button>Registrarse</button>
-            </form>
+            <Container>
+                {message && <div>{message}</div>}
+                <Form onSubmit={handleSubmit}>
+                    <Form.Group
+                        as={Row}
+                        className="mb-3 justify-content-center"
+                    >
+                        <Form.Label column sm={2} htmlFor="email">
+                            Email:
+                        </Form.Label>
+                        <Col sm={6}>
+                            <Form.Control
+                                id="email"
+                                type="email"
+                                placeholder="ejemplo@correo.com"
+                                value={email}
+                                onChange={handleEmailChange}
+                            />
+                        </Col>
+                    </Form.Group>
+                    <Form.Group
+                        as={Row}
+                        className="mb-3 justify-content-center"
+                    >
+                        <Form.Label column sm={2} htmlFor="password">
+                            Contraseña:
+                        </Form.Label>
+                        <Col sm={6}>
+                            <Form.Control
+                                id="password"
+                                type="password"
+                                placeholder="Ingrese su contraseña..."
+                                value={password}
+                                onChange={handlePasswordChange}
+                            />
+                        </Col>
+                    </Form.Group>
+                    <Form.Group
+                        as={Row}
+                        className="mb-3 justify-content-center"
+                    >
+                        <Form.Label column sm={2} htmlFor="name">
+                            Nombre:
+                        </Form.Label>
+                        <Col sm={6}>
+                            <Form.Control
+                                id="name"
+                                type="text"
+                                placeholder="escribe tu nombre"
+                                value={name}
+                                onChange={handleNameChange}
+                            />
+                        </Col>
+                    </Form.Group>
+                    <Form.Group
+                        as={Row}
+                        className="mb-3 justify-content-center"
+                    >
+                        <Form.Label column sm={2} htmlFor="surname">
+                            Apellido:
+                        </Form.Label>
+                        <Col sm={6}>
+                            <Form.Control
+                                id="surname"
+                                type="text"
+                                placeholder="escribe tu nombre"
+                                value={surname}
+                                onChange={handleSurnameChange}
+                            />
+                        </Col>
+                    </Form.Group>
+                    <Row sm={2} className="justify-content-center">
+                        <Button variant="primary" size="sm">
+                            Registrarse
+                        </Button>
+                    </Row>
+                </Form>
+            </Container>
         </>
     );
 }
