@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import {
+    BrowserRouter as Router,
+    Route,
+    Routes,
+    Navigate,
+} from "react-router-dom";
+
+import Login from "./pages/Login";
+import { UserContextProvider } from "./context/UserContext";
+import Users from "./pages/Users";
+import Logout from "./pages/Logout";
+import SingUp from "./pages/SingUp";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <div className="App">
+            <UserContextProvider>
+                <Router>
+                    <Routes>
+                        <Route path="/register" element={<SingUp />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/logout" element={<Logout />} />
+                        <Route path="/users" element={<Users />} />
+                        <Route path="/" element={<Navigate to="/users" />} />
+                    </Routes>
+                </Router>
+            </UserContextProvider>
+        </div>
+    );
 }
 
 export default App;
