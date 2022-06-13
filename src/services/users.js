@@ -8,7 +8,15 @@ function getUsers(token) {
         },
     })
         .then(res => {
-            if (!res.ok) return Promise.reject(res.json());
+            if (!res.ok) {
+                const err = new Error(
+                    res.status === 401
+                        ? "Sin autorización"
+                        : "Error desconocido"
+                );
+                err.errCode = 401;
+                throw err;
+            }
             return res.json();
         })
         .then(data => data.items);
@@ -24,7 +32,6 @@ function deleteUser(id, token) {
         },
     }).then(res => {
         if (res.ok) return { message: "Usuario eliminado" };
-        console.log(res);
         throw new Error(
             res.status === 404 ? "Usuario no encontrado" : "Error desconocido"
         );
