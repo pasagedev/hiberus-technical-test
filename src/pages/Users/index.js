@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Context from "../../context/UserContext";
 import { deleteUser, getUsers } from "../../services/users";
 import User from "../../components/User";
-import { ListGroup, Row } from "react-bootstrap";
+import { ListGroup, Row, Alert } from "react-bootstrap";
 import Notification from "../../components/Notification";
 
 export default function Users() {
@@ -47,20 +47,28 @@ export default function Users() {
         <Row>
             <Notification text={message.text} type={message.type} />
             {!token ? (
-                <Link to="/login">Iniciar sesión</Link>
+                <>
+                    <Alert variant="warning">
+                        Necesita estar logueado para ver el listado de usuarios
+                    </Alert>
+                    <Link to="/login">Iniciar sesión</Link>
+                </>
             ) : (
-                <ListGroup as="ul">
-                    {users.map(user => (
-                        <User
-                            key={user.id}
-                            name={user.name}
-                            surname={user.surname}
-                            email={user.email}
-                            id={user.id}
-                            onDeleteHandler={handlerDeleteUser}
-                        />
-                    ))}
-                </ListGroup>
+                <>
+                    <h2>Listado de usuarios</h2>
+                    <ListGroup as="ul">
+                        {users.map(user => (
+                            <User
+                                key={user.id}
+                                name={user.name}
+                                surname={user.surname}
+                                email={user.email}
+                                id={user.id}
+                                onDeleteHandler={handlerDeleteUser}
+                            />
+                        ))}
+                    </ListGroup>
+                </>
             )}
         </Row>
     );
