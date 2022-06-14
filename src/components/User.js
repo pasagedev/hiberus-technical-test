@@ -7,10 +7,15 @@ export default function User({ email, name, surname, id, onDeleteHandler }) {
     const handleShowDetail = () => setShowDetail(!showDetail);
 
     return (
-        <ListGroup.Item action variant="ligth" onClick={handleShowDetail}>
+        <ListGroup.Item
+            action
+            as={ListGroup.Item}
+            variant="ligth"
+            onClick={handleShowDetail}
+        >
             <Card>
                 <Card.Header>
-                    {name} {surname}
+                    {name && surname ? `${name} ${surname}` : "Usuario Anónimo"}
                 </Card.Header>
                 {showDetail && (
                     <Card.Body>
