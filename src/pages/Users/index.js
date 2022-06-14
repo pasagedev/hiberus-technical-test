@@ -18,7 +18,6 @@ export default function Users() {
             : getUsers(token)
                   .then(data => setUsers(data))
                   .catch(e => {
-                      console.log(e.message);
                       if (e.errCode === 401) {
                           setToken(null);
                           localStorage.removeItem("token");
@@ -41,6 +40,8 @@ export default function Users() {
                     type: "danger",
                 });
             });
+        // necesario para re-renderizar si hay el mismo mensaje
+        setMessage(false);
     };
 
     return (
