@@ -17,7 +17,7 @@ import Header from "./components/Header";
 
 function App() {
     return (
-        <Container fluid>
+        <Container className="container-sm">
             <Col>
                 <UserContextProvider>
                     <Router>
