@@ -9,7 +9,23 @@ function login(email, password) {
             password,
         }),
     }).then(res => {
-        if (!res.ok) return Promise.reject(res.json());
+        if (!res.ok) {
+            let message = "Error desconocido";
+            switch (res.status) {
+                case 404: {
+                    message = "Usuario o contraseña incorrectos";
+                    break;
+                }
+                case 601: {
+                    message = "Usuario no válido";
+                    break;
+                }
+                default:
+                    break;
+            }
+
+            throw new Error(message);
+        }
         return res.json();
     });
 }
