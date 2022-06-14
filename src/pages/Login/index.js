@@ -1,12 +1,17 @@
 import { useContext, useState } from "react";
-import { login } from "../../services/auth";
 import Context from "../../context/UserContext";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { Form, Alert, Container, Button } from "react-bootstrap";
+
+import { login } from "../../services/auth";
+import Notification from "../../components/Notification";
 
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const { token, setToken } = useContext(Context);
+    const [message, setMessage] = useState(false);
+    const navigate = useNavigate();
 
     const handleEmailChange = ({ target }) => setEmail(target.value);
     const handlePasswordChange = ({ target }) => setPassword(target.value);
@@ -17,35 +22,48 @@ export default function Login() {
             .then(res => {
                 setToken(res);
                 localStorage.setItem("token", JSON.stringify(res));
+                navigate("/users");
             })
-            .catch(err => console.log(err));
+            .catch(err => setMessage({ text: err.message, type: "danger" }));
+        //fuerza el re-renderizado en caso que exista el mismo mensaje
+        setMessage(false);
     };
 
     return token ? (
-        <Navigate to="/users" />
+        <Alert>Ya ha iniciado sesión</Alert>
     ) : (
-        <form onSubmit={handleSubmit}>
-            <div>
-                <label htmlFor="email">email:</label>
-                <input
-                    id="email"
-                    type="email"
-                    placeholder="ejemplo@correo.com"
-                    value={email}
-                    onChange={handleEmailChange}
-                />
-            </div>
-            <div>
-                <label htmlFor="password">contraseña:</label>
-                <input
-                    id="password"
-                    type="password"
-                    placeholder="Ingrese su contraseña..."
-                    value={password}
-                    onChange={handlePasswordChange}
-                />
-            </div>
-            <button>Iniciar sesión</button>
-        </form>
+        <Container className="container">
+            {message && (
+                <Notification text={message.text} type={message.type} />
+            )}
+            <Form onSubmit={handleSubmit}>
+                <Form.Group className="mb-3 justify-content-center">
+                    <Form.Label htmlFor="email">Email:</Form.Label>
+                    <Form.Control
+                        sm={6}
+                        id="email"
+                        type="email"
+                        placeholder="ejemplo@correo.com"
+                        value={email}
+                        onChange={handleEmailChange}
+                    />
+                </Form.Group>
+                <Form.Group className="mb-3 justify-content-center">
+                    <Form.Label column htmlFor="password">
+                        Contraseña:
+                    </Form.Label>
+                    <Form.Control
+                        id="password"
+                        type="password"
+                        placeholder="Ingrese su contraseña..."
+                        value={password}
+                        onChange={handlePasswordChange}
+                    />
+                </Form.Group>
+                <Button type="submit" variant="primary" size="sm">
+                    Iniciar sesión
+                </Button>
+            </Form>
+        </Container>
     );
 }
